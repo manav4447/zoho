@@ -1,0 +1,92 @@
+response = zoho.inventory.getRecordsByID("invoices", "60005463588", "368221000000044002");
+// info response;
+contact_name = response.getJSON("invoice").getJSON("customer_name");
+// info contact_name;
+record = response.getJSON("invoice").getJSON("line_items");
+// info record;
+li = List();
+for each itm in record{
+		lineitem = Map();
+	desc = itm.get("description");
+// 	info desc;
+	
+	qty = itm.get("quantity");
+// 	info qty;
+	price = itm.get("rate");
+	////
+
+lineitem.put("Description", desc);
+lineitem.put("Quantity", qty);
+lineitem.put("UnitAmount",price);
+li.add(lineitem);
+// 	info li;
+}
+refresh_token = "71b672a48592f9ee8396a166ecdb74fd295c5961f55c1efed1809e961c1a560b";
+
+header1=Map();
+header1.put("Content-Type","application/x-www-form-urlencoded");
+
+authorization= "Basic" + " "+ "OEYyNjdFMEUyRjJFNEE3Qjk4QjY2M0E1Q0Y2OTBEOEY6ZUt3Q2M2UFNHam5IU3R2RUJ6aXNLbVNDbERPclZmNm92V0FPRnFIWWdVNkRTN1kw";
+header1.put("Authorization", authorization);
+
+// url= "https://identity.xero.com/connect/token?refresh_token=" + refresh_token+ "&grant_type=refresh_token";
+// info url;
+// for getting the access token from refresh token
+mp3 = Map();
+mp3.put("refresh_token",refresh_token );
+mp3.put("grant_type","refresh_token");
+res = invokeurl
+[
+	url: "https://identity.xero.com/connect/token"
+	type: POST
+	headers: header1
+	parameters: mp3
+	
+];
+info res;
+acs_tkn = res.get("access_token");
+info acs_tkn;
+authorization1 = "Bearer" +" "+ acs_tkn;
+
+header2= Map();
+header2.put("Authorization",authorization1);
+header2.put("Content-Type", "application/json");
+info header2;
+tntID = invokeurl
+[
+	url: "https://api.xero.com/connections"
+	type: GET
+	headers: header2
+];
+info tntID;
+
+tnt = tntID.getJSON("tenantId");
+info tnt;
+
+//now just needs to call the api
+// format of the header
+final = Map();
+final.put("Authorization", authorization1);
+final.put("Accept","application/json");
+final.put("xero-tenant-id", tnt);
+//format for creating the invoice
+contact = Map();
+contact.put("Name",contact_name);
+mp = Map();
+mp.put("Type", "ACCREC");
+mp.put("Contact", contact);
+mp.put("LineItems", li);
+info mp;
+
+invc = invokeurl
+[
+	url: "https://api.xero.com/api.xro/2.0/Invoices"
+	type: POST
+	parameters: mp.toString()
+	headers: final
+];
+info invc;
+
+
+
+
