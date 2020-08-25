@@ -1,0 +1,100 @@
+
+/*attachments
+This is a sample function. Uncomment to execute or make changes to this function.
+invoiceID = invoice.get("invoice_id");
+invoicedate = invoice.get("date").toDate();
+organizationID = organization.get("organization_id");
+*/
+organizationId = "60005463588";
+clientID = "1000.D8CR3G8COIKRUQHA0G9NQUGIQ3XY3P";
+client_secret = "0d6c163c08f918ca2ba33e8eca12d3174151f0dc25";
+refreshtoken = "1000.6b92dcc84691beb71770aba9bcad5ada.ace16baf7552bff21d94287d71acab30";
+// info clientID;
+mp1 = Map();
+mp1.put("client_id",clientID);
+mp1.put("client_secret",client_secret);
+mp1.put("refresh_token",refreshtoken);
+mp1.put("grant_type","refresh_token");
+response = invokeurl
+[
+	url :"https://accounts.zoho.in/oauth/v2/token"
+	type :POST
+	parameters:mp1
+];
+info response;
+access = response.getJSON("access_token");
+info access;
+header1 = Map();
+acc1 = "Zoho-oauthtoken" + " " + access;
+header1.put("Authorization",acc1);
+// ///////////////////////
+biil_record = zoho.inventory.getRecordsByID("Bills","60005463588","368221000000071397");
+billId = biil_record.getJSON("bill").getJSON("bill_id").toString();
+fileName = biil_record.getJSON("bill").getJSON("documents").getJson("file_name");
+fileSize = biil_record.getJSON("bill").getJSON("documents").getJson("file_size");
+documentId = biil_record.getJSON("bill").getJSON("documents").getJson("document_id");
+res1 = invokeurl
+						[         
+							url :"https://inventory.zoho.in/api/v1/bills/" + billId + "/documents/" + documentId + "?organization_id=60005463588"
+							type :GET
+							headers:header1
+						];
+						info res1; //getting docs detail in name
+// response = zoho.inventory.getRecordsByID("invoices","60005463588","368221000000044002");
+// info response;
+// filename = response.getJSON("invoice").getJSON("documents").getJSON("file_name");
+// info filename;
+// fName = filename;
+// contact_name = response.getJSON("invoice").getJSON("customer_name");
+// record = response.getJSON("invoice").getJSON("line_items");
+refresh_token = "25854e9a1f88e865488aa753574869506d32e4c8093fa3aef39d8b03db1de3e7";
+header1 = Map();
+header1.put("Content-Type","application/x-www-form-urlencoded");
+authorization = "Basic" + " " + "OEYyNjdFMEUyRjJFNEE3Qjk4QjY2M0E1Q0Y2OTBEOEY6ZUt3Q2M2UFNHam5IU3R2RUJ6aXNLbVNDbERPclZmNm92V0FPRnFIWWdVNkRTN1kw";
+header1.put("Authorization",authorization);
+mp3 = Map();
+mp3.put("refresh_token",refresh_token);
+mp3.put("grant_type","refresh_token");
+res = invokeurl
+[
+	url :"https://identity.xero.com/connect/token"
+	type :POST
+	parameters:mp3
+	headers:header1
+];
+info res;
+acs_tkn = res.get("access_token");
+info acs_tkn;
+authorization1 = "Bearer" + " " + acs_tkn;
+////////////////////
+
+header2 = Map();
+header2.put("Authorization",authorization1);
+header2.put("Content-Type","application/json");
+info header2;
+tntID = invokeurl
+[
+	url :"https://api.xero.com/connections"
+	type :GET
+	headers:header2
+];
+info tntID;
+tnt = tntID.getJSON("tenantId");
+info tnt;
+////////////
+////posting an attachment
+mp5 = Map();
+mp5.put("Authorization",authorization1);
+// mp5.put("Content Type","image/png");
+// mp5.put("Content-Length",fileSize);
+// mp5.put("Accept","text/xml");
+mp5.put("xero-tenant-id", tnt);
+info mp5;
+r_data = invokeurl
+[
+	url :"https://api.xero.com/api.xro/2.0/Invoices/f1d90218-3e56-4d0a-bce7-b9d33d0e11d9/Attachments/"+ res1+"?IncludeOnline=true"
+	type: POST
+	headers:mp5
+	files: res1
+];
+info r_data;
