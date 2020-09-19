@@ -1,0 +1,25 @@
+SELECT
+"Customers (Zoho Finance)"."First Name"'First Name',
+"Customers (Zoho Finance)"."Last Name"'Last Name',
+"Contacts"."Email"'Email',
+"Contacts"."Title"'Title',
+"Contacts"."Phone"'Phone',
+"Accounts"."Billing State"'Billing State',
+"Accounts"."Billing Street"'Billing Street',
+"Accounts"."Billing City"'Billing City',
+"Accounts"."Billing Code"'Billing Code',
+"Customers (Zoho Finance)"."Customer Name" 'Customer Name',
+"Estimate Items (Zoho Finance)"."Item Name" 'Item Name',
+"Estimate Items (Zoho Finance)"."Item ID"'Item ID',
+"Estimate Items (Zoho Finance)"."Total (BCY)"'Total (BCY)',
+"Estimate Items (Zoho Finance)"."Placement" 'Placement',
+"Estimate Items (Zoho Finance)"."Item Price" 'Item Price',
+"Estimate Items (Zoho Finance)"."Insertion" 'Insertion'
+from "Customers (Zoho Finance)"
+left join "Estimates (Zoho Finance)" on "Estimates (Zoho Finance)"."Customer ID"="Customers (Zoho Finance)"."Customer ID"
+left join "Estimate Items (Zoho Finance)" on "Estimate Items (Zoho Finance)"."Estimate ID"="Estimates (Zoho Finance)"."Estimate ID"
+Left join "Contacts" on "Customers (Zoho Finance)"."CRM Reference ID"="Contacts"."Account ID"
+Left join "Accounts" on "Customers (Zoho Finance)"."CRM Reference ID" = "Accounts"."ACCOUNTID"
+
+/* This is a sample SQL SELECT Query */
+/*Use "Control + Space Bar" to see other keywords*/
