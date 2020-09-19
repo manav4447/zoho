@@ -1,0 +1,254 @@
+			Trigger Handler
+
+response = Map();
+response.put("action","reply");
+response.put("replies",{"Hi, How may I help you today? Please select your interest:"});
+response.put("input",{"type":"select","options":{"Trade Data","HS Code","Duty & Tax","Notifications","Others"}});
+return response;
+
+----------------------------------------------------------------------------------------------------------
+//msg handler
+
+                msg = message.get("text");
+name = visitor.get("name");
+if(operation.equals("chat"))
+{
+	if(!msg.equalsIgnoreCase("Trade Data") && !msg.equalsIgnoreCase("Notifications") && !msg.equalsIgnoreCase("HS Code") && !msg.equalsIgnoreCase("Duty & Tax") && !msg.equalsIgnoreCase("Others"))
+	{
+		//,"We thank you for interest in our services"
+		response.put("action","reply");
+		response.put("replies",{"Hi, How may I help you today? Please select your interest."});
+		response.put("input",{"type":"select","options":{"Trade Data","HS Code","Duty & Tax","Notifications","Others"}});
+		return response;
+	}
+}
+if(!msg.isNull())
+{
+	response.put("action","context");
+	if(msg.equalsIgnoreCase("Trade Data"))
+	{
+		// 		res = zoho.crm.getRecordById("Leads","4384470000003669394");
+		// 		info res;
+		response.put("context_id","forward");
+		question = {"name":"first_name","replies":{"Please enter your name:"},"input":{"type":"name"},"field_name":"siq_name"};
+		name = visitor.get("name");
+		info name;
+		question1 = {"name":"email","replies":{{"text":" Please enter your email","field_name":"siq_email"}},"input":{"type":"email"}};
+		question2 = {"name":"phone","replies":{{"text":"Please enter your phone no.","field_name":"siq_phone","validate":{"format":"phoneno(10)","error":{"Please Enter a valid 10 digit phone number without any spaces or dashes"}}}},"input":{"type":"tel"}};
+		question3 = {"name":"Requirements","replies":{"Please enter your requirements"},"input":{"type":"name"}};
+		response.put("questions",{question,question1,question2,question3});
+	}
+	else if(msg.equalsIgnoreCase("HS Code"))
+	{
+		response.put("context_id","common");
+		question = {"name":"first_name","replies":{"Please enter your name:"},"input":{"type":"name"},"field_name":"siq_name"};
+		question1 = {"name":"email","replies":{{"text":"Please enter your email","field_name":"siq_email"}},"input":{"type":"email"}};
+		question2 = {"name":"phone","replies":{{"text":"Please enter your phone no.","field_name":"siq_phone","validate":{"format":"phoneno(10)","error":{"Please Enter a valid 10 digit phone number without any spaces or dashes"}}}},"input":{"type":"tel"}};
+		question3 = {"name":"HS_Code","replies":{{"text":"We have the most updated HS Code list, you can find your HS Code at this page","type":"links","links":{{"text":"https://www.cybex.in/hs-codes/default.aspx","url":"https://www.cybex.in/hs-codes/default.aspx"}}},"Do you want to proceed further?"},"suggestions":{"Yes","No"}};
+		response.put("questions",{question,question1,question2,question3});
+	}
+	else if(msg.equalsIgnoreCase("Duty & Tax"))
+	{
+		response.put("context_id","common");
+		question = {"name":"first_name","replies":{"Please enter your name:"},"input":{"type":"name"},"field_name":"siq_name"};
+		question1 = {"name":"email","replies":{{"text":"Please enter your email","field_name":"siq_email"}},"input":{"type":"email"}};
+		question2 = {"name":"phone","replies":{{"text":"Please enter your phone no.","field_name":"siq_phone","validate":{"format":"phoneno(10)","error":{"Please Enter a valid 10 digit phone number without any spaces or dashes"}}}},"input":{"type":"tel"}};
+		question3 = {"name":"router","replies":{{"text":"Our Custom Duty pages are used by most of the CHA's and govt. officials you can view indian Custom duty at this page:","type":"links","links":{{"text":"https://www.cybex.in/indian-custom-duty/default.aspx ","url":"https://www.cybex.in/indian-custom-duty/default.aspx"}}},"Do you want to proceed further?"},"suggestions":{"Yes","No"}};
+		response.put("questions",{question,question1,question2,question3});
+	}
+	else if(msg.equalsIgnoreCase("Notifications"))
+	{
+		response.put("context_id","common");
+		question = {"name":"first_name","replies":{"Please enter your name:"},"input":{"type":"name"},"field_name":"siq_name"};
+		question1 = {"name":"email","replies":{{"text":"Please enter your email","field_name":"siq_email"}},"input":{"type":"email"}};
+		question2 = {"name":"phone","replies":{{"text":"Please enter your phone no.","field_name":"siq_phone","validate":{"format":"phoneno(10)","error":{"Please Enter a valid 10 digit phone number without any spaces or dashes"}}}},"input":{"type":"tel"}};
+		question3 = {"name":"router","replies":{{"text":"Please visit ","type":"links","links":{{"text":"https://www.cybex.in/notifications/default.aspx","url":"https://www.cybex.in/notifications/default.aspx"}}},"Do you want to proceed further?"},"suggestions":{"Yes","No"}};
+		response.put("questions",{question,question1,question2,question3});
+	}
+	else if(msg.equalsIgnoreCase("Others"))
+	{
+		response.put("context_id","others");
+		question = {"name":"first_name","replies":{"Please enter your name:"},"input":{"type":"name"},"field_name":"siq_name"};
+		question1 = {"name":"email","replies":{{"text":"Please enter your email","field_name":"siq_email"}},"input":{"type":"email"}};
+		question2 = {"name":"phone","replies":{{"text":"Please enter your phone no.","field_name":"siq_phone","validate":{"format":"phoneno(10)","error":{"Please Enter a valid 10 digit phone number without any spaces or dashes"}}}},"input":{"type":"tel"}};
+		question3 = {"name":"Requirements","replies":{"Please enter your requirements"},"input":{"type":"name"}};
+		response.put("questions",{question,question1,question2,question3});
+	}
+	else if(msg.containsIgnoreCase("Yes"))
+	{
+		response.put("context_id","others5");
+		question3 = {"name":"Requirements","replies":{"Please enter your requirements"},"input":{"type":"name"}};
+		response.put("questions",{question3});
+		return response;
+	}
+	// info msg;
+	else if(msg.containsIgnoreCase("No"))
+	{
+		// 	info msg;
+		response = Map();
+		response.put("action","end");
+		// 	response.put("action ","forward");
+		response.put("replies",{"We thankyou for your interest in our services"});
+		return response;
+	}
+	else
+	{
+		response.put("action","reply");
+		response.put("replies",{"I did not understand"});
+		response.put("input",{"type":"select","options":{"Do you want to continue","NO, end chat"}});
+	}
+}
+return response;
+-------------------------------------------------------------------------------------------------------
+   Context Handler
+response = Map();
+response.put("action","context");
+if(context_id.equals("forward"))
+{
+	Full_name = answers.get("first_name").get("text");
+	email = answers.get("email").get("text");
+	phone = answers.get("phone").get("text");
+	req = answers.get("Requirements").get("text");
+	mp = Map();
+	Full_name1 = Full_name.toList(" ");
+	info Full_name1.size();
+	if(Full_name1.size() > 1)
+	{
+		first_name = Full_name1.get(0);
+		last_name = Full_name1.get(1);
+		mp.put("First_Name",first_name);
+		mp.put("Last_Name",last_name);
+	}
+	else
+	{
+		mp.put("Last_Name",Full_name);
+	}
+	mp.put("Lead_Source","Chat");
+	mp.put("Email",email);
+	mp.put("phone",phone);
+	mp.put("Description",req);
+	mp.put("Remarks","Trade Data");
+	// 	info mp;
+	creatLead = zoho.crm.createRecord("Leads",mp);
+	info creatLead;
+	response.put("action","end");
+	response.put("replies",{" Thanks  Please wait while we connect you with expert"});
+	return response;
+}
+response.put("action","context");
+response.put("context","contextid");
+if(context_id.equals("common"))
+{
+	// 	response.put("action","context");
+	// 	response.put("context","createLead");
+	Full_name = answers.get("first_name").get("text");
+	email = answers.get("email").get("text");
+	phone = answers.get("phone").get("text");
+	mp = Map();
+	Full_name1 = Full_name.toList(" ");
+	info Full_name1.size();
+	if(Full_name.size() > 1)
+	{
+		first_name = Full_name1.get(0);
+		last_name = Full_name1.get(1);
+		mp.put("First_Name",first_name);
+		mp.put("Last_Name",last_name);
+	}
+	else
+	{
+		mp.put("Last_Name",Full_name);
+	}
+	mp.put("Lead_Source","Chat");
+	mp.put("Email",email);
+	mp.put("phone",phone);
+	mp.put("Description",req);
+	mp.put("Remarks","Exim Resources");
+	// 	info mp;
+	creatLead = zoho.crm.createRecord("Leads",mp);
+	// 	info creatLead;
+	ID = creatLead.getJSON("id");
+	session_map = Map();
+	session_map.put("Full_Name",Full_name);
+	session_map.put("email",email);
+	session_map.put("phone",phone);
+	session_map.put("id",ID);
+	res = zoho.salesiq.visitorsession.set("manavcorp",session_map);
+	info res;
+	response.put("action","reply");
+	response.put("replies",{"Do you want any other help?"});
+	response.put("input",{"type":"select","options":{"Yes","No, end chat"}});
+	return response;
+}
+if(context_id.equals("others"))
+{
+	Full_name = answers.get("first_name").get("text");
+	email = answers.get("email").get("text");
+	phone = answers.get("phone").get("text");
+	req = answers.get("Requirements").get("text");
+	mp = Map();
+	Full_name1 = Full_name.toList(" ");
+	info Full_name1.size();
+	if(Full_name.size() > 1)
+	{
+		first_name = Full_name1.get(0);
+		last_name = Full_name1.get(1);
+		mp.put("First_Name",first_name);
+		mp.put("Last_Name",last_name);
+	}
+	else
+	{
+		mp.put("Last_Name",Full_name);
+	}
+	mp.put("Lead_Source","Chat");
+	mp.put("Email",email);
+	mp.put("phone",phone);
+	mp.put("Description",req);
+	mp.put("Remarks","Others");
+	// 	info mp;
+	creatLead = zoho.crm.createRecord("Leads",mp);
+	info creatLead;
+	response.put("action","end");
+	response.put("replies",{" Thanks  Please wait while we connect you with expert"});
+	return response;
+}
+if(context_id.equals("others5"))
+{
+	req = answers.get("Requirements").get("text");
+	name = zoho.salesiq.visitorsession.get("manavcorp","Full_Name");
+	leadphone = zoho.salesiq.visitorsession.get("manavcorp","phone");
+	leademail = zoho.salesiq.visitorsession.get("manavcorp","email");
+	leadid = zoho.salesiq.visitorsession.get("manavcorp","id");
+	// 		info name;
+	Full_name2 = name.getJSON("Full_Name");
+	email = leademail.getJSON("email");
+	phone = leadphone.getJSON("phone");
+	id = leadid.getJSON("id");
+	mp = Map();
+	Full_name1 = Full_name2.toList(" ");
+	info Full_name1.size();
+	if(Full_name.size() > 1)
+	{
+		first_name = Full_name1.get(0);
+		last_name = Full_name1.get(1);
+		mp.put("First_Name",first_name);
+		mp.put("Last_Name",last_name);
+	}
+	else
+	{
+		mp.put("Last_Name",Full_name2);
+	}
+	mp.put("Email",email);
+	mp.put("phone",phone);
+	mp.put("Description",req);
+	mp.put("Remarks","Others");
+	info mp;
+	updateLead = zoho.crm.updateRecord("Leads",id,mp);
+	info updateLead;
+	response.put("action","end");
+	response.put("replies",{" Thanks  Please wait while we connect you with expert"});
+	return response;
+}
+return response;
+
+
+
