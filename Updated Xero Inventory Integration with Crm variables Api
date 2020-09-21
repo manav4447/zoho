@@ -1,0 +1,124 @@
+
+// // This is a sample function. Uncomment to execute or make changes to this function.
+// invoiceID = invoice.get("invoice_id");
+// invoicedate = invoice.get("date").toDate();
+// organizationID = organization.get("organization_id");
+clientIDs = "1000.****************************";
+client_secrets = "****************************";
+refresh_token_crm_settings_all_scp = "1000.***************************************************;
+mp1 = Map();
+mp1.put("client_id",clientIDs);
+mp1.put("client_secret",client_secrets);
+mp1.put("refresh_token",refresh_token_crm_settings_all_scp);
+mp1.put("grant_type","refresh_token");
+response = invokeurl
+[
+	url :"https://accounts.zoho.com.au/oauth/v2/token"
+	type :POST
+	parameters:mp1
+];
+accesstkn = response.getJSON("access_token");
+crmvarheader = Map();
+oauth = "Zoho-oauthtoken" + " " + accesstkn;
+crmvarheader.put("Authorization",oauth);
+//get the refreshtoken value from crmvariables
+variableID = "18547000000315003";
+getdata = invokeurl
+[
+	url :"https://www.zohoapis.com.au/crm/v2/settings/variables?" + variableID
+	type :GET
+	headers:crmvarheader
+];
+get_refreshtoken_crmvar = getdata.getJSON("variables").getJSON("value");
+info get_refreshtoken_crmvar;
+clientID = "*************************************";
+client_secret = "**********************************";
+base64 = zoho.encryption.base64Encode(clientID + ":" + client_secret);
+mp = Map();
+authorization = "Basic" + " " + base64;
+mp.put("Authorization",authorization);
+mp.put("Content-Type","application/x-www-form-urlencoded");
+req = Map();
+req.put("grant_type","refresh_token");
+req.put("refresh_token",get_refreshtoken_crmvar);
+tkn = invokeurl
+[
+	url :"https://identity.xero.com/connect/token"
+	type :POST
+	parameters:req
+	headers:mp
+];
+// info tkn;
+access_token = tkn.get("access_token");
+refresh_token = tkn.getJSON("refresh_token");
+info refresh_token;
+// update this refreshtoken in crm variable
+value = refresh_token;
+description = "updated refresh token";
+name = "XERO refreshtoken";
+vars = Map();
+vars.put("value",refresh_token);
+vars.put("name","XERO refresh token");
+vars.put("description","updated refresh token");
+varsList = List();
+varsList.add(vars);
+finalvarMap = Map();
+finalvarMap.put("variables",varsList);
+updatevariable = invokeurl
+[
+	url :"https://www.zohoapis.com.au/crm/v2/settings/variables/" + variableID
+	type :PUT
+	parameters:finalvarMap.toString()
+	headers:crmvarheader
+];
+info updatevariable;
+//get the tenant id
+authorization_tnt = "Bearer " + access_token;
+auth = Map();
+auth.put("Content-Type","application/json");
+auth.put("Authorization",authorization_tnt);
+tnt = invokeurl
+[
+	url :"https://api.xero.com/connections"
+	type :GET
+	headers:auth
+];
+// info tnt;
+// tenantId = tnt.getJSON("tenantId");
+// header = Map();
+// header.put("Authorization",authorization_tnt);
+// header.put("xero-tenant-id",tenantId);
+//store the refreshtoken in a variable 
+//invoice process
+// invoice_details = zoho.inventory.getRecordsByID("invoices",organizationID,invoiceID);
+// contact_name = invoice_details.getJSON("invoice").getJSON("customer_name");
+// record = invoice_details.getJSON("invoice").getJSON("line_items");
+// li = List();
+// for each  item in record
+// {
+// 	itm = Map();
+// 	account_name = item.get("account_name");
+// 	tax_percentage = item.get("tax_percentage");
+// 	rate = item.get("rate").toLong();
+// 	quantity = item.get("quantity").toLong();
+// 	itm.put("Description",item.get("description"));
+// 	itm.put("Quantity",quantity);
+// 	itm.put("UnitAmount",rate);
+// 	// 	itm.put("TaxType",item.get("tax_name"));
+// 	li.add(itm);
+// }
+// contact = Map();
+// contact.put("Name",contact_name);
+// mp5 = Map();
+// mp5.put("Type","ACCREC");
+// mp5.put("Contact",contact);
+// mp5.put("LineItems",li);
+// info mp5;
+// // invc = invokeurl
+// // [
+// // 	url :"https://api.xero.com/api.xro/2.0/Invoices"
+// // 	type :POST
+// // 	parameters:mp5.toString()
+// // 	headers:header
+// // ];
+// // info invc;
