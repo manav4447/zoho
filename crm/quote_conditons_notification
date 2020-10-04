@@ -1,0 +1,96 @@
+quote_details = zoho.crm.getRecordById("Quotes",quote_id);
+// info quote_details;
+owner = quote_details.getJSON("Owner").getJSON("name");
+ownerID = quote_details.getJSON("Owner").getJSON("id");
+response = zoho.crm.searchRecords("Role_Management","(Sales_rep_Email:equals:" + ownerID + ")");
+// info response;
+roleID = response.getJSON("id");
+res = zoho.crm.getRecordById("Role_Management",roleID);
+// info res;
+Sales_ManagerID = res.getJSON("Sales_Manager_Email").getJSON("id");
+Sales_Manager_Response = zoho.crm.getRecordById("users",Sales_ManagerID);
+Sales_Manager_Email = Sales_Manager_Response.getJSON("users").getJSON("email");
+info Sales_Manager_Email;
+Tech_eng_ID = res.getJSON("Technical_Engineer_Email").getJSON("id");
+Technical_Engineer_Response = zoho.crm.getRecordById("users",Tech_eng_ID);
+Technical_Engineer_Email = Technical_Engineer_Response.getJSON("users").getJSON("email");
+info Technical_Engineer_Email;
+email_createdby = quote_details.getJSON("Created_By").getJSON("email");
+info email_createdby;
+stage = quote_details.getJSON("data").getJSON("Quote_Stage");
+account_name = quote_details.getJSON("data").getJSON("Account_Name").getJSON("name");
+account_ID = quote_details.getJSON("data").getJSON("Account_Name").getJSON("id");
+account_details = zoho.crm.getRecordById("Accounts",account_ID);
+// info account_details;
+acc_type = account_details.getJSON("Account_Type");
+// info acc_type;
+prod = quote_details.getJSON("data").getJSON("Product_Details");
+for each  itm in prod
+{
+	prod_name = itm.get("product").get("name");
+}
+info prod_name;
+name = prod_name.contains("BLR");
+if(name == true && acc_type == "Compte majeur")
+{
+	sendmail
+	[
+		from :zoho.loginuserid
+		to :Technical_Engineer_Email
+		subject :"Quote approval request "
+		message :"Please view the Quote and mark it as approved or rejected"
+	]
+	mp = Map();
+	mp.put("Quote_Stage","Waiting for internal approval");
+	updt_quote = zoho.crm.updateRecord("Quotes",quote_id,mp);
+	process = Map();
+	Quote_id = quote_id.toString();
+	process.put("processing_quotes_id",Quote_id);
+	process.put("Name","Technical Engineer Quote Approval");
+	process.put("Owner",4229866000000513006);
+	record = zoho.crm.createRecord("Processing",process,{"trigger":{"workflow"}});
+}
+//if contact type non standard
+if(acc_type == "Compte majeur")
+{
+	sendmail
+	[
+		from :zoho.loginuserid
+		to :Sales_Manager_Email
+		subject :"Quote approval request "
+		message :"Please view the Quote and mark it as approved or rejected"
+	]
+	process = Map();
+	Quote_id = quote_id.toString();
+	process.put("processing_quotes_id",Quote_id);
+	process.put("Name","Sales Manager Email Workflow");
+	process.put("Owner",4229866000000513006);
+	record = zoho.crm.createRecord("Processing",process,{"trigger":{"workflow"}});
+}
+else
+{
+	sendmail
+	[
+		from :zoho.loginuserid
+		to :Sales_Manager_Email
+		subject :"Approval request Quotes"
+		message :"Notification regarding approval request"
+	]
+	// 	//create a record in processing module
+	process = Map();
+	Quote_id = quote_id.toString();
+	process.put("processing_quotes_id",Quote_id);
+	process.put("Name","quote_notification");
+	process.put("Owner",4229866000000513006);
+	record = zoho.crm.createRecord("Processing",process,{"trigger":{"workflow"}});
+}
+if(stage == "Approved")
+{
+	sendmail
+	[
+		from :zoho.loginuserid
+		to :email_createdby
+		subject :"Quote stage notification"
+		message :"Quote status has been approved by Sales Manager"
+	]
+}
