@@ -1,0 +1,36 @@
+// est_id="18547000000275028"
+est_details = zoho.crm.getRecordById("CustomModule5002",est_Id);
+// info est_details;
+est_no = est_details.getJSON("Name");
+info est_no;
+mp = Map();
+mp.put("estimate_number",est_no);
+estimate = invokeurl
+[
+	url :"https://books.zoho.com.au/api/v3/estimates?estimate_number=" + est_no + "&organization_id=" + org_id
+	type :GET
+	connection:"est"
+];
+est = estimate.getJSON("estimates");
+for each  one in est
+{
+	estimateId = one.get("estimate_id");
+}
+info estimateId;
+review = invokeurl
+[
+	url :"https://books.zoho.com.au/api/v3/estimates/" + estimateId + "/submit?organization_id=" + org_id
+	type :POST
+	connection:"approvl"
+];
+info review;
+code = review.get("code");
+if(code == 0)
+{
+	msg = "Estimate subimitted successfully for approval";
+}
+else
+{
+	msg = "Sorry , there is some error , please contact your administrator";
+}
+return msg;
