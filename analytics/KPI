@@ -1,0 +1,253 @@
+SELECT *
+FROM  "Chat_external_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Site Web_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Appel entrant_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Action sortante_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Total Leads_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Leads to Contacts_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Account to Orders_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Orders 25%_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Orders 50%_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Orders 75%_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Orders 90%_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Validated Orders 100%_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Nombre de contrats vendus_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Total des contrats vendus $$$_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Chiffres d'affaires global_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Chiffres d'affaires - Nouveau Logo_a_admin_a_admin" 
+UNION
+ SELECT *
+FROM  "Chiffres d'affaires - Client Existant (Net+)_a_admin_a_admin" 
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+ SELECT
+		 IF(1, 'Account to Orders', '') AS 'KPI',
+		 (		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 month("Created Time")  = month(current_date())
+) AS "Current Month",
+		 round((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 month("Created Time")  = month(current_date())
+)/ (		SELECT count("ACCOUNTID")
+		FROM  "Accounts" 
+		WHERE	 month("Created Time")  = month(current_date())
+), 2) AS '%',
+		 (		SELECT "ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Account to Orders'
+) AS 'ObjectIf',
+		 /*---------------------------------------------------------------*/ round(((round((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 month("Created Time")  = month(current_date())
+)/ (		SELECT count("ACCOUNTID")
+		FROM  "Accounts" 
+		WHERE	 month("Created Time")  = month(current_date())
+), 2) -(		SELECT "ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Account to Orders'
+)) / (		SELECT "ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Account to Orders'
+)) * 100, 2) AS 'Variation',
+		 (		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 year("Created Time")  = year(current_date())
+) AS 'YTD',
+		 round((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 year("Created Time")  = year(current_date())
+)/ (		SELECT count("ACCOUNTID")
+		FROM  "Accounts" 
+		WHERE	 year("Created Time")  = year(current_date())
+), 2) AS 'Y%',
+		 (		SELECT "Yearly ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Account to Orders'
+) AS 'Y ObjectIf',
+		 /*---------------------------------------------------------------*/ round(((round((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 year("Created Time")  = year(current_date())
+)/ (		SELECT count("ACCOUNTID")
+		FROM  "Accounts" 
+		WHERE	 year("Created Time")  = year(current_date())
+), 2) -(		SELECT "Yearly ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Account to Orders'
+)) / (		SELECT "Yearly ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Account to Orders'
+)) * 100, 2) AS 'Y Variation'
+FROM  "Sales Orders" 
+LIMIT 1 
+
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ SELECT
+		 IF(1, 'Chat a leads', '') AS 'KPI',
+		 (		SELECT count("LEADID")
+		FROM  "Leads" 
+		WHERE	 month("Created Time")  = month(current_date())
+		 AND	"Lead Source"  = 'Conversation'
+		 AND	"Lead Owner"  = 'External Developer 21'
+) AS 'Current Month',
+		 round((((		SELECT count("LEADID")
+		FROM  "Leads" 
+		WHERE	 month("Created Time")  = month(current_date())
+		 AND	"Lead Source"  = 'Conversation'
+		 AND	"Lead Owner"  = 'External Developer 21'
+)/ (		SELECT count("LEADID")
+		FROM  "Leads" 
+)) * 100), 2) AS '%',
+		 (		SELECT "User1 Monthly"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Chat a leads'
+		 AND	"Company Objectif Owner"  = 'External Developer 21'
+) AS 'ObjectIf',
+		 /*---------------------------------------------------------------*/ round((((		SELECT count("LEADID")
+		FROM  "Leads" 
+		WHERE	 month("Created Time")  = month(current_date())
+		 AND	"Lead Source"  = 'Conversation'
+		 AND	"Lead Owner"  = 'External Developer 21'
+)-(		SELECT "User1 Monthly"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Chat a leads'
+		 AND	"Company Objectif Owner"  = 'External Developer 21'
+)) / (		SELECT "User1 Monthly"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Chat a leads'
+		 AND	"Company Objectif Owner"  = 'External Developer 21'
+)) * 100, 2) AS 'Variation',
+		 (		SELECT count("LEADID")
+		FROM  "Leads" 
+		WHERE	 year("Created Time")  = year(current_date())
+		 AND	"Lead Source"  = 'Conversation'
+		 AND	"Lead Owner"  = 'External Developer 21'
+) AS 'YTD',
+		 round((((		SELECT count("LEADID")
+		FROM  "Leads" 
+		WHERE	 year("Created Time")  = year(current_date())
+		 AND	"Lead Source"  = 'Conversation'
+		 AND	"Lead Owner"  = 'External Developer 21'
+)/ (		SELECT count("LEADID")
+		FROM  "Leads" 
+)) * 100), 2) AS 'Y%',
+		 (		SELECT "User1 Yearly"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Chat a leads'
+) AS 'Y ObjectIf',
+		 /*---------------------------------------------------------------*/ round((((		SELECT count("LEADID")
+		FROM  "Leads" 
+		WHERE	 year("Created Time")  = year(current_date())
+		 AND	"Lead Source"  = 'Conversation'
+		 AND	"Lead Owner"  = 'External Developer 21'
+)-(		SELECT "User1 Yearly"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Chat a leads'
+)) / (		SELECT "User1 Yearly"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Chat a leads'
+)) * 100, 2) AS 'Y Variation'
+FROM  "Leads" 
+LIMIT 1 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT
+		 IF(1, 'Orders 25%', '') AS 'KPI',
+		 (		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 month("Created Time")  = month(current_date())
+		 AND	"Stage"  = '25% - Commande créée - Validation interne'
+) AS 'Current Month',
+		 round((((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 month("Created Time")  = month(current_date())
+		 AND	"Stage"  = '25% - Commande créée - Validation interne'
+)/ (		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+)) * 100), 2) AS '%',
+		 (		SELECT "ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Orders 25%'
+) AS 'ObjectIf',
+		 /*---------------------------------------------------------------*/ round((((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 month("Created Time")  = month(current_date())
+		 AND	"Stage"  = '25% - Commande créée - Validation interne'
+)-(		SELECT "ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Orders 25%'
+)) / (		SELECT "ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Orders 25%'
+)) * 100, 2) AS 'Variation',
+		 (		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 year("Created Time")  = year(current_date())
+		 AND	"Stage"  = '25% - Commande créée - Validation interne'
+) AS 'YTD',
+		 round((((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 year("Created Time")  = year(current_date())
+		 AND	"Stage"  = '25% - Commande créée - Validation interne'
+)/ (		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+)) * 100), 2) AS 'Y%',
+		 (		SELECT "Yearly ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Orders 25%'
+) AS 'Y ObjectIf',
+		 /*---------------------------------------------------------------*/ round((((		SELECT count("SALESORDERID")
+		FROM  "Sales Orders" 
+		WHERE	 year("Created Time")  = year(current_date())
+		 AND	"Stage"  = '25% - Commande créée - Validation interne'
+)-(		SELECT "Yearly ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Orders 25%'
+)) / (		SELECT "Yearly ObjectIf"
+		FROM  "Company Objectif" 
+		WHERE	 "Company Objectif Name"  = 'Orders 25%'
+)) * 100, 2) AS 'Y Variation'
+FROM  "Sales Orders" 
+LIMIT 1 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
