@@ -1,0 +1,41 @@
+res = zoho.crm.getRecordById("Jobs",id);
+// info res;
+contactID = res.getJSON("Client").getJSON("id");
+contact_details = zoho.crm.getRecordById("Contacts",contactID);
+// info contact_details;
+home_owner_email = contact_details.getJSON("Email");
+info home_owner_email;
+jobFiles = res.getJSON("Job_Files");
+for each  job in jobFiles
+{
+	mp = Map();
+	extn = job.get("extn");
+	download_Url = job.get("download_Url");
+	mode = job.get("mode");
+	original_Size_Byte = job.get("original_Size_Byte");
+	file_Name = job.get("file_Name");
+	file_Id = job.get("file_Id");
+	attachment_Id = job.get("attachment_Id");
+	file_Size = job.get("file_Size");
+}
+attachementId = attachment_Id;
+get_attachments = invokeurl
+[
+	url :"https://www.zohoapis.com.au/crm/v2/Jobs/" + id + "/Attachments/" + attachementId
+	type :GET
+	connection:"attachments"
+];
+info get_attachments;
+Job_Status = res.getJSON("Job_Status");
+if(Job_Status.containsIgnoreCase("completed"))
+{
+	sendmail
+	[
+		from :zoho.loginuserid
+		to :home_owner_email
+		subject :"Job Statement"
+		message :"We are pleased to give you the statement of Job"
+		content type :HTML
+		Attachments :file:get_attachments
+	]
+}
