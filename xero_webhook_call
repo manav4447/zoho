@@ -1,0 +1,264 @@
+inventory_org_id = "***********";
+crmAPIRequest = {"file_content":null,"headers":{"content-length":{"4908"},"lb_ssl_ciphers":{"ECDHE-RSA-AES128-GCM-SHA256"},"host":{"www.zohoapis.com.au:443"},"lb_sni":{"www.zohoapis.com.au"},"lb_ssl_remote_ip":{"52.20.64.83"},"lb_http_version":{"HTTP/1.1"},"connection":{"close"},"content-type":{"application/json; charset=utf-8"},"lb_ssl_session_resumption":{"."},"lb_ssl_version":{"TLSv1.2"},"x-xero-signature":{"oPfQ5Gkyz/AN2wzoMtQ/mg9DBj3RmEpgmr5PZM9jZP4="}},"auth_type":"apikey","method":"POST","user_info":{"zgid":7000445520,"org_info":{"name":"Flexiroof Limited","id":7000445520},"country":"New Zealand","time_format":"HH:mm","name":"Simon Moore","id":18547000000085001,"time_zone":"NST","email":"simon@flexiroof.com","zuid":"7000413858"},"record":{},"params":{},"body":"{\"events\":[{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"resourceId\": \"fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"eventDateUtc\": \"2020-09-30T11:54:46.416\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"resourceId\": \"fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"eventDateUtc\": \"2020-09-30T12:00:16.6\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"resourceId\": \"fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"eventDateUtc\": \"2020-09-30T13:04:04.098\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"resourceId\": \"fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"eventDateUtc\": \"2020-09-30T13:05:09.042\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"resourceId\": \"fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"eventDateUtc\": \"2020-09-30T13:05:14.001\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"resourceId\": \"fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"eventDateUtc\": \"2020-09-30T14:32:44.538\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/81c90f1b-2cea-4e80-9d02-59c50a630ae3\",\n \"resourceId\": \"81c90f1b-2cea-4e80-9d02-59c50a630ae3\",\n \"eventDateUtc\": \"2020-10-01T04:16:03.435\",\n \"eventType\": \"CREATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"resourceId\": \"fc56fdbf-d79b-49cc-b6e3-2a7a1a71f575\",\n \"eventDateUtc\": \"2020-10-01T09:37:53.305\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/81c90f1b-2cea-4e80-9d02-59c50a630ae3\",\n \"resourceId\": \"81c90f1b-2cea-4e80-9d02-59c50a630ae3\",\n \"eventDateUtc\": \"2020-10-01T09:38:11.733\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"resourceId\": \"db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"eventDateUtc\": \"2020-10-01T11:28:34.637\",\n \"eventType\": \"CREATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"resourceId\": \"db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"eventDateUtc\": \"2020-10-01T11:29:05.353\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"resourceId\": \"db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"eventDateUtc\": \"2020-10-01T11:53:58.011\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"resourceId\": \"db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"eventDateUtc\": \"2020-10-01T11:56:04.95\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n},{\n \"resourceUrl\": \"https://api.xero.com/api.xro/2.0/Invoices/db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"resourceId\": \"db6f90bc-2937-4426-841c-5d5b93098a37\",\n \"eventDateUtc\": \"2020-10-01T11:59:08.601\",\n \"eventType\": \"UPDATE\",\n \"eventCategory\": \"INVOICE\",\n \"tenantId\": \"df011c8c-ee04-4f10-aadc-6ae1b6d1efc0\",\n \"tenantType\": \"ORGANISATION\"\n}],\"firstEventSequence\": 1,\"lastEventSequence\": 14, \"entropy\": \"XTTAYHRVBFGDDEOOHYDY\"}"};
+status = 200;
+mp = Map();
+mp.put("payload_xero",crmAPIRequest);
+update_custom = zoho.crm.updateRecord("XeroWebhook","18547000000353098",mp,{"trigger":{"workflow"}});
+// info update_custom;
+// info crmAPIRequest;
+// events = crmAPIRequest.getJSON("body").getJSON("events").toString();
+// info events;
+events = crmAPIRequest.get("body");
+// events = body.getJSON("events");
+// info events;
+// headers = crmAPIRequest.get("headers").get("x-xero-signature");
+// info headers;
+payload = crmAPIRequest.getJSON("body");
+info payload;
+header_sig = crmAPIRequest.getJSON("headers").getJSON("x-xero-signature");
+info header_sig;
+// **********client key
+webhook_key = "***************************************************";
+encoded_data = zoho.encryption.hmacsha256(webhook_key,payload);
+//crmvariables for storing and retreiving xero refresh token
+clientIDs = "1000.*******************************88";
+client_secrets = "******************************";
+refresh_token_crm_settings_all_scp = "1000.**************************************";
+mp1 = Map();
+mp1.put("client_id",clientIDs);
+mp1.put("client_secret",client_secrets);
+mp1.put("refresh_token",refresh_token_crm_settings_all_scp);
+mp1.put("grant_type","refresh_token");
+response = invokeurl
+[
+	url :"https://accounts.zoho.com.au/oauth/v2/token"
+	type :POST
+	parameters:mp1
+];
+accesstkn = response.getJSON("access_token");
+crmvarheader = Map();
+oauth = "Zoho-oauthtoken" + " " + accesstkn;
+crmvarheader.put("Authorization",oauth);
+//get the refreshtoken value from crmvariables
+variableID = "18547000000315003";
+getdata = invokeurl
+[
+	url :"https://www.zohoapis.com.au/crm/v2/settings/variables?" + variableID
+	type :GET
+	headers:crmvarheader
+];
+get_refreshtoken_crmvar = getdata.getJSON("variables").getJSON("value");
+info get_refreshtoken_crmvar;
+if(encoded_data == header_sig)
+{
+	status = 200;
+}
+else
+{
+	status = 401;
+}
+if(status == 200)
+{
+	client_id = "********************************";
+	client_secret = "**********************************";
+	base64_encoded_key = zoho.encryption.base64Encode(client_id + ":" + client_secret);
+	// 	xero_data = zoho.crm.getRecords("Xero_Data");
+	// 	refresh_token = "";
+	// 	xero_data_id = "";
+	// 	if(!xero_data.isEmpty())
+	// 	{
+	// 		for each  data in xero_data
+	// 		{
+	// 			if(data.getJSON("Xero_Refresh_Token") != null)
+	// 			{
+	// 				refresh_token = data.getJSON("Xero_Refresh_Token");
+	// 				xero_data_id = data.getJSON("id");
+	// 			}
+	// 		}
+	// 	}
+	if(get_refreshtoken_crmvar != "")
+	{
+		refresh_token = get_refreshtoken_crmvar;
+	}
+	get_tkn_header = Map();
+	get_tkn_header.put("Authorization","Basic " + base64_encoded_key);
+	param = Map();
+	param.put("grant_type","refresh_token");
+	param.put("refresh_token",refresh_token);
+	get_tkn = invokeurl
+	[
+		url :"https://identity.xero.com/connect/token"
+		type :POST
+		parameters:param
+		headers:get_tkn_header
+	];
+	access_tkn = get_tkn.getJSON("access_token");
+	new_refresh_tkn = get_tkn.getJSON("refresh_token");
+	// update this refreshtoken in crm variable
+	value = new_refresh_tkn;
+	description = "updated refresh token";
+	name = "XERO refreshtoken";
+	vars = Map();
+	vars.put("value",new_refresh_tkn);
+	vars.put("name","XERO refresh token");
+	vars.put("description","updated refresh token");
+	varsList = List();
+	varsList.add(vars);
+	finalvarMap = Map();
+	finalvarMap.put("variables",varsList);
+	updatevariable = invokeurl
+	[
+		url :"https://www.zohoapis.com.au/crm/v2/settings/variables/" + variableID
+		type :PUT
+		parameters:finalvarMap.toString()
+		headers:crmvarheader
+	];
+}
+if(events.size() > 0)
+{
+	sendmail
+	[
+		from :zoho.loginuserid
+		to :"manav@insightcrew.com"
+		subject :"test"
+		message :"dkandfjandsfjadnfadf"
+	]
+	for each  event in events
+	{
+		event_type = event.getJSON("eventType");
+		tenant_id = event.getJSON("tenantId");
+		if(tenant_id == "")
+		{
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :"manav@insightcrew.com"
+				subject :"Error In Sync"
+				message :"Connection between Xero and Zoho is broken. Please check"
+			]
+		}
+		header = Map();
+		header.put("Xero-tenant-id",tenant_id);
+		header.put("Authorization","Bearer " + access_tkn);
+		resource_url = event.getJSON("resourceUrl");
+		resourceId = event.getJSON("resourceId");
+		xero_res = invokeurl
+		[
+			url :resource_url
+			type :GET
+			headers:header
+		];
+		invoice_type = xero_res.getJSON("Invoices").getJSON("Type");
+		invoices = xero_res.getJSON("Invoices").toMap();
+		if(invoice_type == "ACCREC")
+		{
+			if(invoices.containkey("Payments"))
+			{
+				if(invoices.getJSON("Payments").size() > 0)
+				{
+					if(event_type == "UPDATE")
+					{
+						searchParam = {"cf_invoice_xero_id":resourceId};
+						get_inv = zoho.inventory.getRecords("Invoices",inventory_org_id,searchParam);
+						if(get_inv.getJSON("message") == "success")
+						{
+							inv_pay_mp = Map();
+							inv_paid_amt = invoices.getJSON("Payments").getJSON("Amount");
+							payments = invoices.getJSON("Payments").toMap();
+							if(payments.containkey("Date"))
+							{
+								inv_paid_date = payments.getJSON("Date");
+								string1 = inv_paid_date.toList("+");
+								first_p = string1.get(0);
+								f_string = first_p.remove("/Date(");
+								final_date = "1.1.1970".toDate().addDay((((f_string.toLong() / 1000) / 60) / 60) / 24);
+								inv_pay_mp.put("date",final_date);
+							}
+							zoho_invoice_id = get_inv.getJSON("invoices").getJSON("invoice_id");
+							customer_id = get_inv.getJSON("invoices").getJSON("customer_id");
+							inv_pay_mp.put("customer_id",customer_id);
+							inv_pay_mp.put("payment_mode","cash");
+							inv_pay_mp.put("amount",inv_paid_amt);
+							inv_pay_mp.put("reference_number",invoices.getJSON("Reference"));
+							invoices_list = List();
+							invoices_m = Map();
+							invoices_m.put("invoice_id",zoho_invoice_id);
+							invoices_m.put("amount_applied",inv_paid_amt);
+							invoices_list.add(invoices_m);
+							inv_pay_mp.put("invoices",invoices_list);
+							jsonstring = Map();
+							jsonstring.put("JSONString",inv_pay_mp);
+							create_payment = invokeurl
+							[
+								url :"https://inventory.zoho.com/api/v1/customerpayments?organization_id=" + inventory_org_id
+								type :POST
+								parameters:jsonstring
+								connection:"zoho_inventory_connection"
+							];
+						}
+					}
+				}
+			}
+		}
+		else if(invoice_type == "ACCPAY")
+		{
+			if(invoices.containkey("Payments"))
+			{
+				if(invoices.getJSON("Payments").size() > 0)
+				{
+					if(event_type == "UPDATE")
+					{
+						searchParam = {"cf_invoice_xero_id":resourceId};
+						get_bill = zoho.inventory.getRecords("Bills",inventory_org_id,searchParam);
+						if(get_bill.getJSON("message") == "success")
+						{
+							bill_pay_mp = Map();
+							bill_paid_amt = invoices.getJSON("Payments").getJSON("Amount");
+							payments = invoices.getJSON("Payments").toMap();
+							if(payments.containkey("Date"))
+							{
+								inv_paid_date = payments.getJSON("Date");
+								string1 = inv_paid_date.toList("+");
+								first_p = string1.get(0);
+								f_string = first_p.remove("/Date(");
+								final_date = "1.1.1970".toDate().addDay((((f_string.toLong() / 1000) / 60) / 60) / 24);
+								bill_pay_mp.put("date",final_date);
+							}
+							zoho_bill_id = get_bill.getJSON("bills").getJSON("bill_id");
+							vendor_id = get_bill.getJSON("bills").getJSON("vendor_id");
+							bill_pay_mp.put("vendor_id",vendor_id);
+							bill_pay_mp.put("payment_mode","cash");
+							bill_pay_mp.put("amount",bill_paid_amt);
+							bill_pay_mp.put("reference_number",invoices.getJSON("Reference"));
+							bills_list = List();
+							bills_m = Map();
+							bills_m.put("bill_id",zoho_bill_id);
+							bills_m.put("amount_applied",bill_paid_amt);
+							bills_list.add(bills_m);
+							bill_pay_mp.put("bills",bills_list);
+							jsonstring = Map();
+							jsonstring.put("JSONString",bill_pay_mp);
+							create_payment = invokeurl
+							[
+								url :"https://inventory.zoho.com/api/v1/vendorpayments?organization_id=" + inventory_org_id
+								type :POST
+								parameters:jsonstring
+								connection:"zoho_inventory_connection"
+							];
+						}
+					}
+				}
+			}
+		}
+	}
+}
+sendmail
+[
+	from :zoho.loginuserid
+	to :"manav@insightcrew.com"
+	subject :"crmAPIRequest"
+	message :crmAPIRequest
+]
+response = Map();
+response.put("status_code",status);
+return {"crmAPIResponse":response};
