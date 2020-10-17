@@ -1,0 +1,282 @@
+rec = zoho.crm.getRecordById("Leads",leadID);
+// info rec;
+accounts = zoho.crm.getRecordById("Accounts","*****************");
+// info accounts;
+company = rec.get("Company");
+phone = rec.get("Phone");
+// info phone;
+email = rec.get("Email");
+first_name = rec.get("First_Name");
+last_name = rec.get("Name");
+lead = rec.get("Status");
+Description_du_projet = rec.getJSON("Description_du_projet");
+Type_de_prospect = rec.getJSON("Type_de_prospect");
+R_assignable = rec.getJSON("R_assignable");
+confirmation = rec.getJSON("Confirmation");
+nombre = rec.get("No_of_Employees");
+Langues_de_communication = rec.get("Langues_de_communication");
+langp = rec.get("Langue_pr_f_r_e_de_communication");
+budget = rec.get("Budget_mensuel_de_la_solution_demand_e");
+S_agit_il_d_un_Appel_d_Offre = rec.get("S_agit_il_d_un_Appel_d_Offre");
+date = rec.get("Date_limite_de_d_p_t_de_l_appel_d_offre");
+Street = rec.getJSON("Street");
+Zip_Code = rec.getJSON("Zip_Code");
+City = rec.getJSON("City");
+State = rec.getJSON("State");
+Country = rec.getJSON("Country");
+Pays = rec.getJSON("Pays");
+// if(confirmation == "false"){
+// 	return "Please Mark the  confirmation before converting the prospect!";
+// }
+// if(lead == "Prospect qualifié" && email != null && phone != null && company != null  && confirmation == "true")
+// {
+/////////////////////////new account creation/////////////////////////
+asrch = zoho.crm.searchRecords("Accounts","Phone:equals:" + phone);
+info asrch;
+acmp = Map();
+acmp.put("Account_Name",rec.get("Company"));
+acmp.put("Owner",rec.get("Owner").get("id"));
+acmp.put("Fax",rec.get("Fax"));
+acmp.put("Phone",rec.get("Phone"));
+acmp.put("Website",rec.get("Website"));
+acmp.put("Industry",rec.getJSON("Industry"));
+acmp.put("Linkedin",rec.getJSON("Linkedin"));
+acmp.put("Description",Description_du_projet);
+acmp.put("Description_du_projet",Description_du_projet);
+acmp.put("Type_de_prospect",Type_de_prospect);
+acmp.put("R_assignable",R_assignable);
+acmp.put("Prospect_Client","Prospect");
+acmp.put("Langues_de_communication",Langues_de_communication);
+acmp.put("Langue_pr_f_r_e_de_communication",langp);
+acmp.put("Budget_mensuel_de_la_solution_demand_e",budget);
+acmp.put("S_agit_il_d_un_Appel_d_Offre",S_agit_il_d_un_Appel_d_Offre);
+acmp.put("Employees",nombre);
+acmp.put("Date_limite_de_d_p_t_de_l_appel_d_offre",date);
+acmp.put("Billing_State",State);
+acmp.put("Billing_City",City);
+acmp.put("Billing_Street",Street);
+acmp.put("Billing_Code",Zip_Code);
+acmp.put("Billing_Country",Country);
+acmp.put("Pays_d_origine",Pays);
+info asrch.isEmpty();
+if(asrch.isEmpty())
+{
+	acreated = zoho.crm.createRecord("Accounts",acmp);
+	info acreated;
+	aid = acreated.get("id");
+	//info aid;
+}
+else
+{
+	for each  adata in asrch
+	{
+		aid = adata.get("id");
+		info aid;
+	}
+	//info asrchid;
+	aupdates = zoho.crm.updateRecord("Accounts",aid,acmp);
+}
+//aid is the accountID
+response = zoho.crm.getRelatedRecords("Tasks","Leads",leadID);
+info response.toList();
+if(response != Null)
+{
+	record = {1,2,3,4,5};
+	for each  response in response
+	{
+		mp = Map();
+		activityID = response.getJSON("id");
+		info activityID;
+		activity_records = zoho.crm.getRecordById("Activities",activityID);
+		info activity_records;
+		activity_records_ID = activity_records.getJSON("id");
+		Due_Date = activity_records.getJSON("Due_Date");
+		Priority = activity_records.getJSON("Priority");
+		All_day = activity_records.getJSON("All_day");
+		Check_In_State = activity_records.getJSON("Check_In_State");
+		Status = activity_records.getJSON("Status");
+		Subject = activity_records.getJSON("Subject");
+		owner_name = activity_records.getJSON("Owner").getJSON("name");
+		owner_id = activity_records.getJSON("Owner").getJSON("id");
+		Call_Start_Time = activity_records.getJSON("Call_Start_Time");
+		Closed_Time = activity_records.getJSON("Closed_Time");
+		reminderTime = activity_records.getJSON("Reminder");
+		mp = Map();
+		mp.put("Subject",Subject);
+		mp.put("$se_module","Accounts");
+		mp.put("What_Id",aid);
+		mp.put("Owner",owner_id);
+		mp.put("Due_Date",Due_Date);
+		mp.put("Status",Status);
+		mp.put("Send_Notification_Email",false);
+		//3 lines below Commented 15/10/202 because of error Unparsable date ... 
+		//mp.put("Remind_At",{"ALARM":"FREQ=NONE;ACTION=EMAIL;TRIGGER=DATE-TIME:" + reminderTime.toString("yyyy-MM-dd'T'HH:mm:ss'+05:30'")});
+		//mp.put("Closed_Time",Closed_Time);
+		//mp.put("Call_Start_Time",Call_Start_Time);
+		mp.put("activity_records_ID",activity_records_ID);
+		mp.put("Priority",Priority);
+		//search for tasks in account if present update the record otherwise create the task related list
+		accTask = zoho.crm.getRelatedRecords("Tasks","Accounts",aid);
+		createTask = zoho.crm.createRecord("Tasks",mp);
+	}
+}
+// //info acmp;
+// /////////////////////for main contact//////////////////////////////////////
+// contact1 = rec.get("Ajouter_un_1er_interlocuteur");
+// contact2 = rec.get("Ajouter_un_2_me_interlocuteur");
+// email1 = rec.get("E_mail_interlocuteur_1");
+// email2 = rec.get("E_mail_interlocuteur_2");
+// /////////////////
+// srch = zoho.crm.searchRecords("Contacts","(Email:equals:" + email + ")");
+// info "Contacts" + srch;
+// mp = Map();
+// mp.put("Account_Name",aid);
+// mp.put("Owner",rec.get("Owner").get("id"));
+// mp.put("Description",rec.get("Description"));
+// mp.put("Email",rec.get("Email"));
+// mp.put("Fax",rec.get("Fax"));
+// mp.put("First_Name",rec.get("First_Name"));
+// mp.put("Last_Name",rec.get("Last_Name"));
+// mp.put("Mobile",rec.get("Mobile"));
+// mp.put("Lead_Source",rec.get("Lead_Source"));
+// mp.put("Skype_ID",rec.get("Skype_ID"));
+// mp.put("Title",rec.get("Designation"));
+// mp.put("Twitter",rec.get("Twitter"));
+// mp.put("Phone",rec.get("Phone"));
+// mp.put("Secondary_Email",rec.get("Secondary_Email"));
+// if(isEmpty(srch))
+// {
+// 	mcreated = zoho.crm.createRecord("Contacts",mp);
+// 	srchid = mcreated.get("id");
+// }
+// else if(isEmpty(srch) == false)
+// {
+// 	for each  data in srch
+// 	{
+// 		srchid = data.get("id");
+// 	}
+// 	info srchid;
+// 	updates = zoho.crm.updateRecord("Contacts",srchid,mp);
+// 	// 		info "main" + updates;
+// }
+// /////////////////////////////////for contact 1//////////////////////
+// if(contact1 == true)
+// {
+// 	srch1 = zoho.crm.searchRecords("Contacts","(Email:equals:" + email1 + ")");
+// 	info "srch1" + srch1;
+// 	mpp = Map();
+// 	mpp.put("Account_Name",aid);
+// 	mpp.put("Owner",rec.get("Owner").get("id"));
+// 	mpp.put("Description",rec.get("Description"));
+// 	mpp.put("Email",rec.get("E_mail_interlocuteur_1"));
+// 	mpp.put("Fax",rec.get("Fax"));
+// 	mpp.put("First_Name",rec.get("Pr_nom_interlocuteur_1"));
+// 	mpp.put("Last_Name",rec.get("Nom_interlocuteur_1"));
+// 	//mpp.put("Mobile",rec.get("Mobile"));
+// 	mpp.put("Lead_Source",rec.get("Lead_Source"));
+// 	//mpp.put("Skype_ID",rec.get("Skype_ID"));
+// 	mpp.put("Title",rec.get("Role_interlocuteur_1"));
+// 	//mpp.put("Twitter",rec.get("Twitter"));
+// 	mpp.put("Phone",rec.get("T_l_phone_interlocuteur_1"));
+// 	//mpp.put("Secondary_Email",rec.get("Secondary_Email"));
+// 	if(isEmpty(srch1))
+// 	{
+// 		created1 = zoho.crm.createRecord("Contacts",mpp);
+// 		// 			info "created1 " + created1;
+// 	}
+// 	else if(isEmpty(srch1) == false)
+// 	{
+// 		for each  data1 in srch1
+// 		{
+// 			srchid1 = data1.get("id");
+// 		}
+// 		info srchid1;
+// 		updates1 = zoho.crm.updateRecord("Contacts",srchid1,mpp);
+// 		// 			info updates1;
+// 	}
+// }
+// ////////////////////////////////contact 2//////////////////////////
+// if(contact2 == true)
+// {
+// 	srch2 = zoho.crm.searchRecords("Contacts","(Email:equals:" + email2 + ")");
+// 	mppp = Map();
+// 	mppp.put("Account_Name",aid);
+// 	mppp.put("Owner",rec.get("Owner").get("id"));
+// 	mppp.put("Description",rec.get("Description"));
+// 	mppp.put("Email",rec.get("E_mail_interlocuteur_2"));
+// 	mppp.put("Fax",rec.get("Fax"));
+// 	mppp.put("First_Name",rec.get("Pr_nom_interlocuteur_2"));
+// 	mppp.put("Last_Name",rec.get("Nom_interlocuteur_2"));
+// 	//mppp.put("Mobile",rec.get("Mobile"));
+// 	mppp.put("Lead_Source",rec.get("Lead_Source"));
+// 	//mppp.put("Skype_ID",rec.get("Skype_ID"));
+// 	mppp.put("Title",rec.get("Role_interlocuteur_2"));
+// 	//mppp.put("Twitter",rec.get("Twitter"));
+// 	mppp.put("Phone",rec.get("T_l_phone_interlocuteur_2"));
+// 	//mppp.put("Secondary_Email",rec.get("Secondary_Email"));
+// 	if(isEmpty(srch2))
+// 	{
+// 		created2 = zoho.crm.createRecord("Contacts",mppp);
+// 		// 			info "created2 " + created2;
+// 	}
+// 	else if(isEmpty(srch2) == false)
+// 	{
+// 		for each  data2 in srch2
+// 		{
+// 			srchid2 = data2.get("id");
+// 		}
+// 		updates2 = zoho.crm.updateRecord("Contacts",srchid2,mppp);
+// 		// 			info updates2;
+// 	}
+// }
+// deal = rec.get("Cr_er_une_nouvelle_affaire_Deal");
+// if(deal == true)
+// {
+// 	dname = rec.get("Deal_Name");
+// 	dmp = Map();
+// 	dmp.put("Owner",rec.get("Owner").get("id"));
+// 	dmp.put("Account_Name",aid);
+// 	dmp.put("Campaign_Source",rec.get("Campagne_source").get("id"));
+// 	dmp.put("Amount",rec.get("Amount"));
+// 	dmp.put("Closing_Date",rec.get("Closing_Date"));
+// 	dmp.put("Stage",rec.get("Stage"));
+// 	dmp.put("Deal_Name",rec.get("Deal_Name"));
+// 	dmp.put("Contact_Name",srchid);
+// 	created = zoho.crm.createRecord("Deals",dmp);
+// }
+//Suppression de la fiche de prospect
+// deleteRecordMap = Map();
+// deleteRecordMap.put("module","Leads");
+// deleteRecordMap.put("id",leadID);
+// deleteResp = zoho.crm.invokeConnector("crm.delete",deleteRecordMap);
+// info deleteResp;
+// 	return "La fiche de prospect a été convertie avec succcès!";
+// }
+// else
+// {
+// 	//info lead;
+// 	if(lead != "Prospect qualifié")
+// 	{
+// 		//Pre-Qualified")
+// 		return "Cette fiche de prospect ne peut pas être convertie, car le status est différent de -Prospect qualifié-";
+// 	}
+// 	if(email == null)
+// 	{
+// 		return "Cette fiche de prospect ne peut pas être convertie, car l'adresse courriel est manquante (vide)";
+// 	}
+// 	if(phone == null)
+// 	{
+// 		return "Cette fiche de prospect ne peut pas être convertie, car le numéro de tél. est manquant (vide)";
+// 	}
+// 	if(company == null)
+// 	{
+// 		return "Cette fiche de prospect ne peut pas être convertie, car le nom de l'entreprise est manquant (vide)";
+// 	}
+// 	if(confirmation == "false")
+// 	{
+// 		return "Veuillez confirmer la qualification du prospect avant de convertir.";
+// 	}
+// }
+info aid;
+openUrl("https://crm.zoho.com/crm/org*******/tab/Accounts/" + aid,"same window");
+return "";
