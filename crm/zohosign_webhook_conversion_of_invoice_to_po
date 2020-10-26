@@ -1,0 +1,186 @@
+org_id = "*****";
+body = crmAPIRequest.getJSON("body");
+// info body;
+request_status = body.getJSON("requests").getJSON("request_status");
+document_details = body.getJSON("requests").getJSON("document_ids");
+for each  doc in document_details
+{
+	doc_name = doc.get("document_name");
+	document_size = doc.get("document_size");
+	document_order = doc.get("document_order");
+	total_pages = doc.get("total_pages");
+	document_id = doc.get("document_id");
+}
+actions_details = body.getJSON("requests").getJSON("actions");
+// for each action in actions_details(
+//       action_type = action.get("action_type");
+//   recipient_email = action.get("recipient_email");
+//    recipient_name = action.get("recipient_name");
+//     action_status = action.get("action_status");
+// 	 )
+resp = zoho.crm.getRecords("Contacts");
+recipient_email = "manavjain78310@gmail.com";
+resp = zoho.crm.searchRecords("Contacts","(Email:equals:" + recipient_email + ")");
+// info resp;
+contact_id = resp.getJSON("id");
+// info contact_id;
+job_records = zoho.crm.getRecords("Jobs");
+for each  job_records in job_records
+{
+	client_id = job_records.getJSON("Client").getJSON("id");
+	// 	info client_id;
+	if(client_id == contact_id)
+	{
+		job_id = job_records.getJSON("id");
+	}
+}
+doc_details = zoho.sign.getDocumentById("***************************");
+info doc_details;
+doc_id = "******************8";
+request_id = doc_details.getJSON("requests").getJSON("request_id");
+info request_id;
+get_zsign_doc = invokeurl
+[
+	url: "https://sign.zoho.com.au/api/v1/requests/"+request_id+"/pdf"
+	type:GET
+	connection:"zsign_doc"
+];
+info get_zsign_doc;
+
+response = zoho.crm.attachFile("Jobs",job_id,get_zsign_doc);
+
+info response;
+//convert the invoice into purchase order: if document is signed which means request status is completed
+// if(request_status != Null){
+// 	if(request_status = "Completed"{
+// 		//execute the whole code over here
+// 	}}
+// =====================================================================================================
+invc = zoho.crm.getRecordById("CustomModule5001","*******************");
+invc_no = invc.getJSON("Name");
+// info invc_no;
+invoice = invokeurl
+[
+	url :"https://books.zoho.com.au/api/v3/invoices?invoice_number=" + invc_no + "&organization_id=" + org_id
+	type :GET
+	connection:"invoice"
+];
+// info invoice;
+invoice_id = invoice.getJSON("invoices").getJSON("invoice_id");
+// info invoice_id;
+invoic = zoho.books.getRecordsByID("Invoices",org_id,invoice_id);
+invc_details = invoic.getJSON("invoice");
+// info "1";
+// info invc_details;
+due_date = invc_details.getJSON("due_date");
+reference_number = invc_details.getJSON("reference_number");
+customer_name = invc_details.getJSON("customer_name");
+currency_code = invc_details.getJSON("currency_code");
+discount = invc_details.getJSON("discount");
+notes = invc_details.getJSON("notes");
+terms = invc_details.getJSON("terms");
+template_id = invc_details.getJSON("template_id");
+template_name = invc_details.getJSON("template_name");
+attachment_name = invc_details.getJSON("attachment_name");
+salesperson_name = invc_details.getJSON("salesperson_name");
+// due_date = invc_details.getJSON("due_date");
+billing_address = Map();
+billing_address.put("address",invc_details.getJSON("address"));
+billing_address.put("street2",invc_details.getJSON("street2"));
+billing_address.put("city",invc_details.getJSON("city"));
+billing_address.put("state",invc_details.getJSON("state"));
+billing_address.put("zip",invc_details.getJSON("zip"));
+billing_address.put("country",invc_details.getJSON("country"));
+billing_address.put("fax",invc_details.getJSON("fax"));
+billing_address.put("phone",invc_details.getJSON("phone"));
+billing_address.put("attention",invc_details.getJSON("attention"));
+line_items = invc_details.getJSON("line_items");
+// info line_items;
+li = List();
+for each  item in line_items
+{
+	item_id = item.get("item_id");
+	// 	info item_id;
+	item_details = zoho.books.getRecordsByID("items",org_id,item_id);
+	// 	info items_details;
+	if(item_details != Null)
+	{
+		category = item_details.getJSON("item").getJSON("category_name");
+		// 		info category;
+		if(category != "Aluminium" && category != "KIT" && category != "Aluminium Casting" && category != "Brackets" && category != "Fastners" && category != "Sheet" && category != "Accessories")
+		{
+			info "category";
+			info category;
+		
+	line_item_id = item.get("line_item_id");
+	sku = item.get("sku");
+	account_id = item.get("account_id");
+	account_name = item.get("account_name");
+	name = item.get("name");
+	description = item.get("description");
+	bcy_rate = item.get("bcy_rate");
+	rate = item.get("rate");
+	quantity = item.get("quantity");
+	discount_amount = item.get("discount_amount");
+	tax_type = item.get("tax_type");
+	rate = item.get("rate");
+	tax_percentage = item.get("tax_percentage");
+	item_total = item.get("item_total");
+	tax_name = item.get("tax_name");
+	itm = Map();
+	itm.put("item_id",item_id);
+	// 	itm.put("line_item_id",line_item_id);
+	itm.put("sku",sku);
+	// 	itm.put("account_id",account_id);
+	itm.put("account_name",account_name);
+	itm.put("name",name);
+	itm.put("description",description);
+	itm.put("bcy_rate",bcy_rate);
+	itm.put("rate",rate);
+	itm.put("quantity",quantity);
+	itm.put("discount_amount",discount_amount);
+	itm.put("tax_type",tax_type);
+	itm.put("rate",rate);
+	itm.put("tax_percentage",tax_percentage);
+	itm.put("tax_name",tax_name);
+	li.add(itm);
+			}
+		}
+	}	
+custom_fields = invc_details.getJSON("custom_fields");
+customList = List();
+for each  custm in custom_fields
+{
+	custom = Map();
+	// 	custom.put("customfield_id",custm.get("customfield_id"));
+	custom.put("label",custm.get("label"));
+	custom.put("index",custm.get("index"));
+	custom.put("value_formatted",custm.get("value_formatted"));
+	custom.put("data_type",custm.get("data_type"));
+	custom.put("placeholder",custm.get("placeholder"));
+	custom.put("value",custm.get("value"));
+	customList.add(custom);
+}
+final = Map();
+final.put("due_date",due_date);
+final.put("reference_number",reference_number);
+// final.put("customer_name",customer_name);
+final.put("vendor_id","***********************");
+// fina.put("")
+final.put("currency_code",currency_code);
+final.put("discount",discount);
+final.put("notes",notes);
+final.put("terms",terms);
+// final.put("template_id",template_id);
+final.put("attachment_name",attachment_name);
+final.put("template_name",template_name);
+final.put("salesperson_name",salesperson_name);
+final.put("line_items",li);
+// final.put("billing_address",billing_address);
+final.put("custom_fields",customList);
+// info final;
+// info "final";
+//convert the invoice into purchase order:
+// po = zoho.books.createRecord("PurchaseOrders",org_id,final.toString());
+// info po;
+return "";
