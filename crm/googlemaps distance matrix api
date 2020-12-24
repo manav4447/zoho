@@ -1,0 +1,176 @@
+
+/////////////////////////////////////////////////////////////////////////////
+first_adrs = deal_details.getJSON("Num_ro_civique_rue_et_appartement");
+if(!first_adrs.isNull())
+{
+	address1 = first_adrs.remove("-");
+	Address1 = address1.remove(",");
+	final_street_address1 = Address1.replaceAll(" ","+");
+}
+seocond_adrs = deal_details.getJSON("Num_ro_civique_rue_et_appartement_2");
+if(!seocond_adrs.isNull())
+{
+	address2 = seocond_adrs.remove("-");
+	Address2 = address2.remove(",");
+	final_street_address2 = Address2.replaceAll(" ","+");
+}
+third_adrs = deal_details.getJSON("Num_ro_civique_rue_et_appartement_3");
+if(!third_adrs.isNull())
+{
+	address3 = third_adrs.remove("-");
+	Address3 = address3.remove(",");
+	final_street_address3 = Address3.replaceAll(" ","+");
+}
+fourth_adrs = deal_details.getJSON("Num_ro_civique_rue_et_appartement_4");
+if(!fourth_adrs.isNull())
+{
+	address4 = fourth_adrs.remove("-");
+	Address4 = address4.remove(",");
+	final_street_address4 = Address4.replaceAll(" ","+");
+}
+fifth_adrs = deal_details.getJSON("Num_ro_civique_rue_et_appartement_5");
+if(!fifth_adrs.isNull())
+{
+	address5 = fifth_adrs.remove("-");
+	Address5 = address5.remove(",");
+	final_street_address5 = Address5.replaceAll(" ","+");
+}
+sixth_adrs = deal_details.getJSON("Num_ro_civique_rue_et_appartement_6");
+if(!sixth_adrs.isNull())
+{
+	address6 = sixth_adrs.remove("-");
+	Address6 = address6.remove(",");
+	final_street_address6 = Address6.replaceAll(" ","+");
+}
+city1 = deal_details.getJSON("Quelle_est_la_ville_de_d_part");
+if(!city1.isNull())
+{
+	City1 = city1.remove("-");
+	final_city1 = City1.replaceAll(" ","+");
+}
+city2 = deal_details.getJSON("Quelle_est_la_ville_de_d_part_2");
+if(!city2.isNull())
+{
+	City2 = city2.remove("-");
+	final_city2 = City2.replaceAll(" ","+");
+}
+city3 = deal_details.getJSON("Quelle_est_la_ville_de_d_part_3");
+if(!city3.isNull())
+{
+	City3 = city3.remove("-");
+	final_city3 = City3.replaceAll(" ","+");
+}
+city4 = deal_details.getJSON("Quelle_est_la_ville_de_d_part_4");
+if(!city4.isNull())
+{
+	City4 = city4.remove("-");
+	final_city4 = City4.replaceAll(" ","+");
+}
+city5 = deal_details.getJSON("Quelle_est_la_ville_de_d_part_5");
+if(!city5.isNull())
+{
+	City5 = city5.remove("-");
+	final_city5 = City5.replaceAll(" ","+");
+}
+city6 = deal_details.getJSON("Quelle_est_la_ville_de_d_part_6");
+if(!city6.isNull())
+{
+	City6 = city6.remove("-");
+	final_city6 = City6.replaceAll(" ","+");
+}
+Final_address1 = final_street_address1 + "+" + final_city1;
+Final_address2 = final_street_address2 + "+" + final_city2;
+Final_address3 = final_street_address3 + "+" + final_city3;
+Final_address4 = final_street_address4 + "+" + final_city4;
+Final_address5 = final_street_address5 + "+" + final_city5;
+Final_address6 = final_street_address6 + "+" + final_city6;
+Start_address = "Rohru";
+
+start_addres = Start_address.remove(",");
+final_start_address = start_addres.remove("-");
+Final_Start_Adress = final_start_address.replaceAll(" ","+");
+// info Final_Start_Adress;
+destination_address = final_start_address;
+if(Final_address6 != "null+null")
+{
+	origins = Final_Start_Adress + "%7C" + Final_address1 + "%7C" + Final_address2 + "%7C" + Final_address3 + "%7C" + Final_address4 + "%7C" + Final_address5;
+	destinations = Final_address6;
+}
+else if(Final_address5 != "null+null")
+{
+	origins = Final_Start_Adress + "%7C" + Final_address1 + "%7C" + Final_address2 + "%7C" + Final_address3 + "%7C" + Final_address4;
+	destinations = Final_address5;
+}
+else if(Final_address4 != "null+null")
+{
+	origins = Final_Start_Adress + "%7C" + Final_address1 + "%7C" + Final_address2 + "%7C" + Final_address3;
+	destinations = Final_address4;
+}
+else if(Final_address3 != "null+null")
+{
+	origins = Final_Start_Adress + "%7C" + Final_address1 + "%7C" + Final_address2;
+	destinations = Final_address3;
+	info "5th";
+}
+else if(Final_address2 != "null+null")
+{
+	origins = Final_Start_Adress + "%7C" + Final_address1;
+	destinations = Final_address2;
+	info "Fafdadfasdf";
+}
+else
+{
+	origins = Final_Start_Adress;
+	destinations = Final_address1;
+}
+info "100";
+info origins;
+info destinations;
+get_data = invokeurl
+[
+	url :"https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + origins + "&destinations=" + destinations + "&key=********************************"
+	type :GET
+];
+info get_data;
+li = List();
+if(!get_data.isNull())
+{
+	Distances = get_data.getJSON("rows");
+	d = "distance";
+	t = "time";
+	li = List();
+	count = 0;
+	for each  distnc in Distances
+	{
+		elements = distnc.getJSON("elements");
+		for each  path in elements
+		{
+			mp = Map();
+			count = count + 1;
+			distance = path.getJSON("distance").getJSON("text");
+			info distance;
+					li.add(distance);
+		}
+	}
+}
+info li;
+distance =  li.get(0);
+distnce = distance.remove("mi");
+info distnce;
+mp = Map();
+mp.put("FUNCTION_Prix_pour_marche_items_sp_ciaux",special_item_price);
+mp.put("FUNCTION_Total_Prix_a_l_heure_selon_p_riode",total_price_period);
+mp.put("Distance_in_miles_one_way",distnce);
+info mp;
+// updt_record = zoho.crm.updateRecord("Deals",dealsID,mp);
+// info updt_record;
+// map_data = Map();
+// map_data.put("dealID",dealsID);
+// map_data.put("finalH1c",final_h1c);
+// // resp = invokeurl
+// // [
+// // 	url :"https://www.zohoapis.com/crm/v2/functions/webhook_calculation_of_distance/actions/execute?auth_type=apikey&zapikey=*****.66******************************"
+// // 	type :POST
+// // 	parameters:map_data.toString()
+// // 	connection:"crm_set_all"
+// // ];
