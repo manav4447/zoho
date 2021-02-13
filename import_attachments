@@ -1,0 +1,57 @@
+lists = {1,2,3,4,5};
+count = 0;
+// for each  x in lists
+// {
+mp = Map();
+mp.put("page",2);
+mp.put("per_page",20);
+contact_det = invokeurl
+[
+	url :"https://www.zohoapis.com/crm/v2/CustomModule8"
+	type :GET
+	parameters:mp
+	connection:"zoho_crm"
+];
+contact_details = contact_det.getJSON("data");
+// 	}
+for each  record in contact_details
+{
+	car_name = record.getJSON("Name");
+	contactID = record.getJSON("id");
+	I_D = record.getJSON("I_D");
+	info I_D;
+	search_import = zoho.crm.searchRecords("test","(Name:equals:" + I_D + ")");
+	// 		info search_import;
+	for each  rec in search_import
+	{
+		name = rec.getJSON("Name");
+		if(name == I_D)
+		{
+			url = rec.getJSON("img_path_1");
+			if(!url.contains("www"))
+			{
+				url1 = url.replaceAll("https://","https://www.");
+			}
+			else
+			{
+				url1 = url;
+			}
+			Last = url1.lastIndexOf("/");
+			length = url1.len();
+			name = subString(url1,Last + 1,length);
+			rest = subString(url1,0,Last + 1);
+			name_encode = zoho.encryption.urlEncode(name);
+			response = invokeurl
+			[
+				url :rest + name_encode
+				type :GET
+			];
+			info response;
+							updt_model =zoho.crm.attachFile("CustomModule8", contactID, response);
+							info updt_model;
+		}
+	}
+	count = count + 1;
+}
+info count;
+return "";
