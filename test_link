@@ -1,0 +1,98 @@
+lists = {1,2,3,4,5};
+count = 0;
+// for each  x in lists
+// {
+// 	mp = Map();
+// 	mp.put("page",x);
+// 	mp.put("per_page",100);
+// 	contact_det = invokeurl
+// 	[
+// 		url :"https://www.zohoapis.com/crm/v2/CustomModule8"
+// 		type :GET
+// 		parameters:mp
+// 		connection:"zoho_crm"
+// 	];
+// 	contact_details = contact_det.getJSON("data");
+// 	for each  record in contact_details
+// 	{
+// 		car_name = record.getJSON("Name");
+// 		contactID = record.getJSON("id");
+// 		I_D = record.getJSON("I_D");
+// 		info I_D;
+// 		field6 = record.getJSON("field6");
+// 		// info field6;
+// 		search_rec = zoho.crm.searchRecords("CustomModule10","(Name:equals:" + I_D + ")");
+// 		// 			info search_rec;
+// 		for each  vers in search_rec
+// 		{
+// 			versionID = vers.getJSON("id");
+// 			// 				info versionID;
+// // 			update_model = Map();
+// // 			update_model.put("Versions",versionID);
+// // 			// 				updt_model = zoho.crm.updateRecord("CustomModule8", "4358404000026424133", update_model);
+// // 			// 				info updt_model;
+// // 			// 				info "5";
+// 			updt_vers = Map();
+// 			updt_vers.put("name",car_name);
+// 			updt_vers.put("id",contactID);
+// 			final_map = Map();
+// 			final_map.put("Linked_Car",updt_vers);
+// 			update_version = zoho.crm.updateRecord("CustomModule10",versionID,final_map);
+// 			info update_version;
+// 			count = count + 1;
+// 		}
+// 	}
+// }
+// info count;
+// response = zoho.crm.getRecordById("CustomModule8", "4358404000026469270");
+// info response;
+
+
+// response = invokeurl
+// [
+// 	url :"https://www.new-car-lease.co.il/Uploads/2020/01/renault-koleos-2020-1024-08%20(1).jpg"
+// 	type :GET
+// ];
+// info response;
+// test ="https://new-car-lease.co.il/Uploads/2020/01/renault-koleos-2020-1024-08 (1).jpg";
+// test2 = encodeUrl("https://new-car-lease.co.il/Uploads/2020/01/renault-koleos-2020-1024-08 (1).jpg");
+test = zoho.crm.getRecordById("test","4358404000026561484");
+url = test.getJSON("url");
+// info url;
+
+// info "!00";
+// experiment1 = "https://new-car-lease.co.il/Uploads/2017/12/מאזדה cx5%20(2).jpg";
+// testing = experiment1.replaceAll(" ", "%20");
+// info testing;
+
+encode_url = zoho.encryption.urlEncode("https://www.new-car-lease.co.il/Uploads/2017/01/הונדה סיוויק סטיישן (3).jpg");
+info encode_url;
+response = invokeurl
+[
+	url :encode_url
+	type :GET
+];
+info response;
+
+
+
+
+
+
+// res =zoho.crm.attachFile("CustomModule8", "4358404000026469271", response);
+// info res;
+// test ="<p><iframe allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='' frameborder='0' height='600px' scrolling='no' src='https://www.youtube.com/embed/lXMq3RsmK74' width='100%'></iframe></p>";
+// mp = Map();
+// mp.put("Text2",test);
+// update_model = zoho.crm.updateRecord("CustomModule8", "4358404000026469280",mp);
+// info update_model;
+// mp = Map();
+// mp.put("test","dfsafda");
+// response = invokeurl
+// [
+// 	url :"http://new-car.s453.upress.link/"
+// 	type :POST
+// 	parameters:mp.toString()
+// ];
+// info response;
+return "";
