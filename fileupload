@@ -1,0 +1,55 @@
+url = "https://www.new-car-lease.co.il/Uploads/2017/01/יונדאי i25 (5).jpg";
+if(!url.contains("www"))
+{
+	url1 = url.replaceAll("https://", "https://www.");
+}
+else 
+{
+	url1 = url;
+}
+
+Last  = url1.lastIndexOf("/");
+
+length = url1.len();
+name  = subString(url1,Last+1,length);
+rest = subString(url1,0,Last+1);
+
+name_encode = zoho.encryption.urlEncode(name);
+
+
+response = invokeurl
+[
+	url :rest+name_encode
+	Type :GET
+];
+
+
+info response;
+info response.isFile();
+response.setParamName("file");
+res = invokeurl
+[
+	url: "https://www.zohoapis.com/crm/v2/files"
+	type: POST
+	files: response
+	connection : "crmcon"
+];
+
+data = res.getJSON("data");
+if(!data.isEmpty())
+{
+	details = data.getJSON("details");
+	file_id = details.getJSON("id");
+	info file_id;
+}
+
+// //details = 97ad285c751902b0fbc9347b03f307beac55679447527429bab1cce699135650
+
+li = List();
+li.add(file_id);
+mp = Map();
+mp.put("File_Upload_3",li);
+info zoho.crm.updateRecord("Deals", 4742332000000345005, mp);
+
+
+info zoho.crm.getRecordById("Deals", 4742332000000345005);
