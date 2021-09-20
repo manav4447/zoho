@@ -1,0 +1,14 @@
+resp = zoho.crm.getRecordById("Accounts", "3890672000001582001");
+file = resp.get("Product_Images");
+filelist = List();
+for each rec in file
+{
+fileid = rec.get("attachment_Id");
+mp = map();
+mp.put("attachment_id",fileid);
+mp.put("_delete",null);
+filelist.add(mp);
+}
+info filelist;
+update = zoho.crm.updateRecord("Accounts", "3890672000001582001", {"Product_Images":filelist});
+info update;
